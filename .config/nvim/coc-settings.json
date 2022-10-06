@@ -1,0 +1,23 @@
+{
+  "javascript.suggest.autoImports": true, 
+  "typescript.suggest.autoImports": true,
+  "css.customData":[
+    "/home/batista/Projetos-laptop/Solverde/repo/src/dev/*",
+    "/home/batista/Projetos-laptop/Solverde/repo/dist/*"
+  ],
+  "html.customData":[
+    "/home/batista/Projetos-laptop/Solverde/repo/src/dev/*",
+    "/home/batista/Projetos-laptop/Solverde/repo/dist/*"
+  ],
+  "coc.preferences.formatOnSaveFiletypes":[
+    "markdown",
+    "css",
+    "html",
+    "javascript",
+    "sass",
+    "scss"
+  ],
+  "prettier.printWidth": 80,
+  "prettier.singleQuote": true,
+  "diagnostic.displayByAle": true
+}

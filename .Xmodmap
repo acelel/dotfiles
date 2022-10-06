@@ -1,0 +1,6 @@
+keycode 0x85 = Super_L
+clear mod4
+add mod4 = Super_L
+clear lock
+keycode 66 = Super_L
+
