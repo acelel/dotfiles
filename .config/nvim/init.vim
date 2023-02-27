@@ -19,8 +19,6 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 " Linter
 "" Plug 'dense-analysis/ale'
 
-
-
 "" Utilities
 " File tree
 Plug 'kyazdani42/nvim-tree.lua'
@@ -29,7 +27,7 @@ Plug 'folke/which-key.nvim'
 " Git
 Plug 'tpope/vim-fugitive'
 " Org mode
-Plug 'jceb/vim-orgmode'
+Plug 'nvim-neorg/neorg'
 " Auto identify root directory of project
 Plug 'airblade/vim-rooter'
 " Floating terminal (F4)
@@ -43,11 +41,14 @@ Plug 'alvan/vim-closetag'
 " Plug 'junegunn/fzf.vim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
 " Toggle comments
-Plug 'terrortylor/nvim-comment'
+Plug 'terrortylor/nvim-comment' 
 " Highlight characters to jump to
-Plug 'unblevable/quick-scope'
+Plug 'unblevable/quick-scope' "highligh first letter of every word
 " Hop
-Plug 'phaazon/hop.nvim'
+Plug 'phaazon/hop.nvim' " space-space
+" Context menu
+" Plug 'nvim-lua/popup.nvim'
+Plug 'tpope/vim-surround'
 
 
 "" Visual
@@ -62,6 +63,12 @@ Plug 'kyazdani42/nvim-web-devicons'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'catppuccin/nvim', {'as': 'catppuccin'}
 
+""GLSL
+Plug 'timtro/glslView-nvim'
+Plug 'tikhomirov/vim-glsl'
+
+"C#
+Plug 'OmniSharp/omnisharp-vim'
 
 call plug#end()
 
@@ -72,18 +79,22 @@ runtime macros/matchit.vim
 
 "" Lua
 lua << EOF
-require('nvimtreeconfig')
 require('nvim_comment').setup()
 require('hop').setup()
-require('treesitterconfig')
 require('cappuccin')
-require('lualineconfig')
+require('lualine_config')
+require('treesitter_config')
+require('nvimtree_config')
+require('neoorg_config')
 require('keybinds')
+require('glsl')
+require('neovide_settings')
 EOF
 "
 ""Visual settings "
 set termguicolors
-set guifont=Iosevka\ Term:h16
+set guifont=Iosevka\ Term:h13
+set lsp=2
 set guioptions-=m
 set guioptions-=T
 set guioptions-=r
@@ -119,7 +130,7 @@ filetype indent on
 set mouse=a
 set cursorline
 set cursorcolumn
-set number relativenumber
+set number
 set tabstop=2
 set shiftwidth=2
 set expandtab
@@ -135,6 +146,7 @@ let g:coc_global_extensions = [
       \ 'coc-eslint',
       \ 'coc-json',
       \ 'coc-html',
+      \ 'coc-tsserver',
       \ 'coc-css',
       \ 'coc-html-css-support',
       \ 'coc-rust-analyzer',
@@ -197,25 +209,15 @@ nnoremap <c-s> :w<cr>
 nnoremap gb <C-o>
 vnoremap <c-c> "+y
 nmap <F4> :FloatermToggle<cr>
-nmap ct :CommentToggle<cr>
-vmap ct :CommentToggle<cr>gv
+nmap <c-_> :CommentToggle<cr>
+vmap <c-_> :CommentToggle<cr>gv
+" auto format on paste
+nnoremap p ]p 
+nnoremap <c-p> p
+nnoremap <c-b>s :! sass '%:p' \| xclip -sel clip<cr><cr>
+tnoremap <Esc> <c-\><c-n>
 
-" neovide settings "
-function Neovide_fullscreen()
-  if g:neovide_fullscreen == v:true
-    let g:neovide_fullscreen=v:false
-  else
-    let g:neovide_fullscreen=v:true
-  endif
-endfunction
-map <F11> :call Neovide_fullscreen()<cr>
-let g:neovide_cursor_antialiasing = v:true
-let g:neovide_cursor_animation_length = 0.05
-let g:neovide_cursor_trail = 0.1
-let g:neovide_transparency = 1.0
-let g:neovide_refresh_rate = 60
-nnoremap <c-b>s :! sass '%:p' \| xclip -sel clip<cr>
-"
+
 ""Splits
 set splitbelow
 set splitright
@@ -231,3 +233,8 @@ nnoremap <C-H> <C-W><C-H>
 "" Auto identify root directory
 let g:rooter_patterns = ['.git', 'Makefile', '*.sln', 'build/env.sh', 'src']
 
+
+"" Language specific
+"" glsl
+au VimEnter *.frag GlslView
+au BufWritePost *.frag !glslangValidator %

@@ -1,4 +1,5 @@
 require("which-key")
+local wk = require("which-key")
 local leader_mappings = {
     --file
     ["<leader>"] = {"<cmd>HopWord<cr>", "Hop to word"},
@@ -24,7 +25,10 @@ local leader_mappings = {
     --window
     w = {
       name = "Window",
+      c = { "<c-w>q", "Close split"},
+      C = { "<cmd>BufferClose!<cr><c-w>q", "Close split and buffer"},
       s = { "<cmd>split<cr>", "Split"},
+      t = { "<cmd>split<cr>7<c-w>_<cmd>term<cr>", "Terminal"},
       S = { "<cmd>vsplit<cr>", "Split vertical"},
    },
     b = {
@@ -36,10 +40,19 @@ local leader_mappings = {
       p = { "<cmd>BufferPin<cr>", "Toggle pinned"},
     },
   }
-require("which-key").register(leader_mappings, {
+wk.register(leader_mappings, {
   mode = "n", -- NORMAL mode
   prefix = "<leader>",
   silent = true, -- use `silent` when creating keymaps
   noremap = true, -- use `noremap` when creating keymaps
   nowait = false -- use `nowait` when creating keymaps
+})
+
+local imode_mappings = {
+  
+}
+wk.register(imode_mappings, {
+  mode = "i",
+  silent = true,
+  noremap = true
 })

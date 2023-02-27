@@ -70,10 +70,12 @@ end
 
 run_once({ 
   "unclutter -root",
-  "killall redshift",
-  "redshift -l 40.4581484:-8.6762408",
+  "redshift -x",
+  "redshift -l 40.63:-8.662 -b 1:0.7",
   "blueman-applet",
-  "picom -b --config ~/.config/picom/picom.conf"
+  "killall emote",
+  "emote",
+  --"picom -b --config ~/.config/picom/picom.conf"
 }) -- comma-separated entries
 
 -- This function implements the XDG autostart specification
@@ -91,32 +93,28 @@ awful.spawn.with_shell(
 -- {{{ Variable definitions
 
 local themes = {
-    "blackburn",       -- 1
-    "copland",         -- 2
-    "dremora",         -- 3
-    "holo",            -- 4
-    "multicolor",      -- 5
-    "powerarrow",      -- 6
-    "powerarrow-dark", -- 7
-    "rainbow",         -- 8
-    "steamburn",       -- 9
-    "vertex"           -- 10
+    "mikucolor",       -- 1
+    "multicolor",      -- 2
 }
 
-local chosen_theme = themes[5]
+local chosen_theme = themes[2]
 local modkey       = "Mod4"
 local altkey       = "Mod1"
 local vi_focus     = false -- vi-like client focus https://github.com/lcpz/awesome-copycats/issues/275
 local cycle_prev   = true  -- cycle with only the previously focused client or all https://github.com/lcpz/awesome-copycats/issues/274
+
+-- Aliases
 local browser      = "chromium"
 network_manager = "nm-connection-editor" -- recommended: nm-connection-editor
 power_manager = "xfce4-power-manager" -- recommended: xfce4-power-manager
 terminal = "alacritty"
 editor = "nvim"
 launcher = "rofi -show drun -theme /home/batista/.config/rofi/config.rasi"
-screenshot = "scrot -e 'mv $f ~/Pictures/ 2>/dev/null'"
+powermenu = "/home/batista/.config/rofi/powermenu/powermenu.sh"
+screenshot = "flameshot gui"
 filebrowser = "thunar"
---
+calc = "rofi -show calc -modi calc -no-show-match -no-sort"
+
 -- Import Keybinds
 local keys = require("keys")
 root.keys(keys.globalkeys)
@@ -321,8 +319,10 @@ client.connect_signal("request::titlebars", function(c)
             layout  = wibox.layout.flex.horizontal
         },
         { -- Right
-        awful.titlebar.widget.closebutton    (c),
-        layout = wibox.layout.fixed.horizontal()
+          awful.titlebar.widget.floatingbutton (c),
+          awful.titlebar.widget.maximizedbutton (c),
+          awful.titlebar.widget.closebutton    (c),
+          layout = wibox.layout.fixed.horizontal()
         },
         layout = wibox.layout.align.horizontal
     }

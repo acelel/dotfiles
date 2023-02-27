@@ -45,7 +45,7 @@ function rules.create(clientkeys, clientbuttons)
       {
          rule = {},
          properties = {
-            titlebars_enabled = beautiful.titlebars_enabled,
+            titlebars_enabled = true,
             border_width = beautiful.border_width,
             border_color = beautiful.border_normal,
             callback = awful.client.setslave,
@@ -69,7 +69,8 @@ function rules.create(clientkeys, clientbuttons)
             },
             name = {
                "Event Tester",
-               "Steam Guard - Computer Authorization Required"
+               "Steam Guard - Computer Authorization Required",
+               "GlslView"
             },
             role = {
                "pop-up",
@@ -97,7 +98,10 @@ function rules.create(clientkeys, clientbuttons)
             class = {
                "Firefox"
             },
-         }, properties = {switchtotag = true}
+         }, properties = {
+           maximized_horizontal = false,
+           maximized_vertical = false,
+         }
       },
 
       -- Specific tags
@@ -107,7 +111,6 @@ function rules.create(clientkeys, clientbuttons)
                "[Ss]potify"
             },
          }, properties = {
-           switchtotag = true,
            tag = "5",
            screen = "DP-4"
          }
@@ -119,7 +122,6 @@ function rules.create(clientkeys, clientbuttons)
                "Steam"
             },
          }, properties = {
-           switchtotag = true,
            tag = "4",
            screen = "DP-4"
          }
@@ -158,8 +160,32 @@ function rules.create(clientkeys, clientbuttons)
          rule_any = {class = {"Pavucontrol"}, name = {"Bluetooth Devices"}},
          properties = {floating = true, width = screen_width * 0.55, height = screen_height * 0.45}
       },
+
+      -- League
+     {
+       rule = { instance = "league of legends.exe" },
+       properties = {},
+       callback = function (c)
+         local matcher = function (c)
+           return awful.rules.match(c, { instance = "leagueclientux.exe" })
+         end
+         -- Minimize LoL client after game window opens
+         for c in awful.client.iterate(matcher) do
+           c.urgent = false
+           c.minimized = true
+         end
+
+         -- Unminimize LoL client after game window closes
+         c:connect_signal("unmanage", function()
+           for c in awful.client.iterate(matcher) do
+             c.minimized = false
+           end
+         end)
+       end
+     },
    }
-end
+
+ end
 
 -- return module table
 return rules

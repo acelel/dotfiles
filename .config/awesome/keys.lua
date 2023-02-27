@@ -150,6 +150,13 @@ keys.globalkeys = gears.table.join(
       end,
       {description = "application launcher", group = "launcher"}
    ),
+   -- launch powermenu 
+   awful.key({modkey}, "Escape",
+      function()
+         awful.spawn(powermenu)
+      end,
+      {description = "application launcher", group = "launcher"}
+   ),
 
 
    -- =========================================
@@ -196,33 +203,40 @@ keys.globalkeys = gears.table.join(
    -- Spotify binds
    awful.key({}, "XF86AudioNext",
       function()
-         awful.spawn("sp next", false)
+         awful.spawn("python -m spotifycli --next", false)
       end,
       {description = "next music", group = "hotkeys"}
    ),
    awful.key({}, "XF86AudioPrev",
       function()
-         awful.spawn("sp prev", false)
+         awful.spawn("python -m spotifycli --prev", false)
       end,
       {description = "previous music", group = "hotkeys"}
    ),
    awful.key({}, "XF86AudioPlay",
       function()
-         awful.spawn("sp play", false)
+         awful.spawn("python -m spotifycli --playpause", false)
       end,
       {description = "play/pause music", group = "hotkeys"}
    ),
    awful.key({}, "XF86AudioStop",
       function()
-         awful.spawn("sp pause", false)
+         awful.spawn("python -m spotifycli --pause", false)
       end,
       {description = "stop music", group = "hotkeys"}
    ),
 
-   -- Screenshot on prtscn using scrot
+   -- Screenshot on prtscn
    awful.key({}, "Print",
       function()
          awful.util.spawn(screenshot, false)
+      end
+   ),
+
+   -- Calculator mod + c 
+   awful.key({modkey}, "c",
+      function()
+         awful.util.spawn(calc, false)
       end
    ),
 
@@ -234,15 +248,6 @@ keys.globalkeys = gears.table.join(
    awful.key({modkey, "Shift"}, "r",
       awesome.restart,
       {description = "reload awesome", group = "awesome"}
-   ),
-
-   -- Quit Awesome
-   awful.key({modkey}, "Escape",
-      function()
-         -- emit signal to show the exit screen
-         awesome.emit_signal("show_exit_screen")
-      end,
-      {description = "toggle exit screen", group = "hotkeys"}
    ),
 
    awful.key({}, "XF86PowerOff",
@@ -446,6 +451,15 @@ keys.globalkeys = gears.table.join(
           hotkeys_popup.show_help(nil, awful.screen.focused()) 
         end,
         {description = "Open help menu", group = "client"}
+    ),
+
+    awful.key({ modkey, "Control"   }, "m",      
+    function ()
+      for _, c in ipairs(mouse.screen.selected_tag:clients()) do
+        c.minimized = true
+      end
+    end,
+    {description = "close all windows in current tag", group = "client"}
     )
 )
 

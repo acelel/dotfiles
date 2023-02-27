@@ -19,5 +19,9 @@
   ],
   "prettier.printWidth": 80,
   "prettier.singleQuote": true,
-  "diagnostic.displayByAle": true
+  "diagnostic.displayByAle": true,
+  "coc.source.OmniSharp.enable": true,
+  "coc.source.OmniSharp.triggerCharacters": [
+    "."
+  ]
 }
