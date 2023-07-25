@@ -74,7 +74,7 @@ keyset('i', '<CR>', 'coc#pum#visible() ? coc#pum#confirm(): "<C-g>u<CR><c-r>=coc
 keyset('n', '<F1>', '<Plug>(coc-diagnostic-next)', { silent = true }) -- go to next error
 keyset('n', '<c-F1>', '<Plug>(coc-diagnostic-prev)', { silent = true }) -- go to previous error
 keyset('n', '<F2>', '<Plug>(coc-rename)', { silent = true }) -- rename
-keyset('n', '<F4>', ':FloatermToggle<cr>', { silent = true }) -- toggle terminal
+keyset('n', '<F4>', ':ToggleTerm<cr>', { silent = true }) -- toggle terminal
 
 keyset('n', '<c-x>', ':NvimTreeToggle<cr>', { silent = true }) -- toggle nvimtree
 keyset('n', 'gb', '<C-o>', { silent = true }) -- go back
