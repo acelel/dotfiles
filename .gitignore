@@ -1,2 +1,2 @@
-.config/nvim/plugged
-.config/awesome/lain/widget/weather.lua
+.config/tmux/plugins
+.config/nvim/plugin
