@@ -54,7 +54,7 @@ window:
   #
   # Window opacity as a floating point number from `0.0` to `1.0`.
   # The value `0.0` is completely transparent and `1.0` is opaque.
-  opacity: 0.8
+  opacity: 1.0
 
   # Startup Mode (changes require restart)
   #
@@ -110,22 +110,22 @@ window:
 # Font configuration
 font:
   normal:
-    family: Comic Mono Nerd Font
-    style: Semibold
+    family: Comic Mono NF
+    style: Regular 
 
   bold:
-    family: Comic Mono Nerd Font
+    family: Comic Mono NF
     style: Bold
 
   italic:
-    family: Comic Mono Nerd Font
+    family: Comic Mono NF
     style: Italic
 
   bold_italic:
-    family: Comic Mono Nerd Font
+    family: Comic Mono NF
     style: Bold Italic
 
-  size: 12.0
+  size: 10.0
 
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
@@ -405,12 +405,12 @@ font:
 # Default:
 #   - (Linux/BSD/macOS) `$SHELL` or the user's login shell, if `$SHELL` is unset
 #   - (Windows) powershell
-shell:
-  program: /usr/bin/zsh
-  args:
-    - -l
-    - -c
-    - "/usr/lib64/ruby/gems/3.2.0/gems/tmuxinator-3.0.5/bin/tmuxinator start main -n \"0_0\""
+#shell:
+#  program: /usr/bin/zsh
+#  args:
+#    - -l
+#    - -c
+#    - "/usr/lib64/ruby/gems/3.2.0/gems/tmuxinator-3.0.5/bin/tmuxinator start main -n \"0_0\""
 
 
 # Startup directory

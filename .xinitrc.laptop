@@ -1,0 +1,4 @@
+xrandr --output eDP1 --mode 1920x1080
+xset r rate 200 80
+setxkbmap -layout us -variant altgr-intl
+xmodmap ~/.Xmodmap
