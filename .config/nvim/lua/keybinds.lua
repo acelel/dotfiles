@@ -1,9 +1,79 @@
 local wk = require("which-key")
+-- funky bindings
+local keyset = vim.api.nvim_set_keymap
+
+-- window navigation
+keyset('n', '<c-up>', '<c-W><c-K>', { noremap = true, silent = true })
+keyset('n', '<c-down>', '<c-W><c-J>', { noremap = true, silent = true })
+keyset('n', '<c-left>', '<c-W><c-H>', { noremap = true, silent = true })
+keyset('n', '<c-right>', '<c-W><c-L>', { noremap = true, silent = true })
+
+local opts = {silent = true, noremap = true, expr = true, replace_keycodes = false}
+keyset('i', '<c-s>', 'copilot#Accept("<cr>")', opts) -- copilot autocomplete
+keyset('n', '<F1>', ':ToggleTerm<cr>', { silent = true }) -- toggle terminal
+
+keyset('n', '<c-f>', ':Telescope buffers<cr>', { silent = true }) -- toggle nvimtree
+keyset('n', '<c-x>', ':Telescope find_files hidden=true border=false<cr>', { silent = true }) -- toggle nvimtree
+keyset('n', '<c-t>', ':Telescope live_grep<cr>', { silent = true }) -- toggle nvimtree
+keyset('n', '<c-h>', ':Telescope which-key<cr>', { silent = true }) -- toggle nvimtree
+keyset('n', '<c-u>', ':UndotreeToggle<cr>', { silent = true }) -- toggle nvimtree
+keyset('n', '<c-s>', ':w<cr>', { silent = true }) -- toggle nvimtree
+keyset('n', '<c-q>', ':lua require("harpoon.ui").toggle_quick_menu()<cr>', { silent = true }) -- harpoon
+keyset('n', 'gb', '<C-o>', { silent = true }) -- go back
+keyset('v', '<c-c>', '"+y', { silent = true }) -- copy to clipboard
+keyset('n', '<c-_>', ':CommentToggle<cr>', { silent = true }) -- toggle comment
+keyset('n', '<c-/>', ':CommentToggle<cr>', { silent = true }) -- toggle comment
+keyset('v', '<c-_>', ':CommentToggle<cr>gv', { silent = true }) -- toggle comment (visual)
+keyset('v', '<c-/>', ':CommentToggle<cr>gv', { silent = true }) -- toggle comment (visual)
+keyset('n', 'p', 'p`]', { silent = true }) -- auto format on paste
+
+local lsp_mappings = {
+  g = {
+    name = "+GoTo",
+    d = { "<cmd>lua vim.lsp.buf.definition()<cr>", "definition" },
+    D = { "<cmd>lua vim.lsp.buf.declaration()<cr>", "declaration" },
+    i = { "<cmd>lua vim.lsp.buf.implementation()<cr>", "implementations" },
+    o = { "<cmd>lua vim.lsp.buf.type_definition()<cr>", "type definition" },
+    r = { "<cmd>lua vim.lsp.buf.references()<cr>", "references" },
+    s = { "<cmd>lua vim.lsp.buf.signature_help()<cr>", "signature help" },
+  },
+  d = {
+    name = "+Diagnostics",
+    o = { "<cmd>lua vim.diagnostic.open_float()<cr>", "open diagnostics" },
+
+  },
+}
+vim.api.nvim_create_autocmd('LspAttach', {
+  desc = 'LSP Actions',
+  callback = function()
+    local bufmap = function(mode, lhs, rhs, desc)
+      local opts = {buffer = true, desc = desc}
+      vim.keymap.set(mode, lhs, rhs, opts)
+    end
+
+    bufmap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', 'Hover')
+    bufmap('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>', 'rename')
+    bufmap('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', 'code action')
+    bufmap('x', '<F4>', '<cmd>lua vim.lsp.buf.range_code_action()<cr>', 'code action')
+    bufmap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>', 'previous diagnostic')
+    bufmap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>', 'next diagnostic')
+    bufmap('n', '<c-space>', '<cmd>lua vim.diagnostic.actions()<cr>', 'next diagnostic')
+
+    wk.register(lsp_mappings, {
+      mode = "n", -- NORMAL mode
+      prefix = "",
+      silent = false, -- use `silent` when creating keymaps
+    })
+  end
+})
+
+-- which-key mappings
 local leader_mappings_noremap = {
     --file
     ["<leader>"] = {"<cmd>HopWord<cr>", "Hop to word"},
     f = {
       name = "+File",
+      f = { "<cmd>NvimTreeFindFile<cr>", "Focus"},
       s = { "<cmd>w<cr>", "Save file"},
       S = { "<cmd>w!<cr>", "Save file!"},
       ["space"] = { "<cmd> lua require(\"harpoon.ui\").toggle_quick_menu()<cr>", "Quick Switch" },
@@ -15,6 +85,15 @@ local leader_mappings_noremap = {
       t = { "<cmd>Telescope live_grep<cr>", "Text"},
       -- f = { "<cmd>Files<cr>", "Files"},
       -- t = { "<cmd>Rg<cr>", "Text"},
+    },
+    g = {
+      name = "+Git",
+      s = { "<cmd>Git<cr>", "status"},
+      d = { "<cmd>Gdiffsplit<cr>", "diff"},
+      c = { "<cmd>Git commit<cr>", "commit"},
+      a = { "<cmd>Git add .<cr>", "add"},
+      A = { "<cmd>Git add -A<cr>", "add all"},
+      b = { "<cmd>Git blame<cr>", "blame"},
     },
     --window
     w = {
@@ -43,45 +122,4 @@ wk.register(leader_mappings_noremap, {
   nowait = false -- use `nowait` when creating keymaps
 })
 
-local leader_mappings = {
-    g = {
-      name = "+GoTo",
-      d = { "<Plug>(coc-definition)", "Definition"},
-      t = { "<Plug>(coc-type-definition)", "Type Definition"},
-      i = { "<Plug>(coc-implementation)", "Implementation"},
-      r = { "<Plug>(coc-references)", "References"},
-    },
-  }
 
-wk.register(leader_mappings, {
-  mode = "n", -- NORMAL mode
-  prefix = "<leader>",
-  silent = false, -- use `silent` when creating keymaps
-})
-
--- funky bindings
-local keyset = vim.api.nvim_set_keymap
-
--- window navigation
-keyset('n', '<c-up>', '<c-W><c-K>', { noremap = true, silent = true })
-keyset('n', '<c-down>', '<c-W><c-J>', { noremap = true, silent = true })
-keyset('n', '<c-left>', '<c-W><c-H>', { noremap = true, silent = true })
-keyset('n', '<c-right>', '<c-W><c-L>', { noremap = true, silent = true })
-
-local opts = {silent = true, noremap = true, expr = true, replace_keycodes = false}
-keyset('i', '<c-s>', 'copilot#Accept("<cr>")', opts) -- copilot autocomplete
-keyset('i', '<CR>', 'coc#pum#visible() ? coc#pum#confirm(): "<C-g>u<CR><c-r>=coc#on_enter()<CR>"', opts) -- coc-autocomplete
-keyset('n', '<F1>', '<Plug>(coc-diagnostic-next)', { silent = true }) -- go to next error
-keyset('n', '<c-F1>', '<Plug>(coc-diagnostic-prev)', { silent = true }) -- go to previous error
-keyset('n', '<F2>', '<Plug>(coc-rename)', { silent = true }) -- rename
-keyset('n', '<F4>', ':ToggleTerm<cr>', { silent = true }) -- toggle terminal
-
-keyset('n', '<c-x>', ':NvimTreeToggle<cr>', { silent = true }) -- toggle nvimtree
-keyset('n', 'gb', '<C-o>', { silent = true }) -- go back
-keyset('v', '<c-c>', '"+y', { silent = true }) -- copy to clipboard
-keyset('n', '<c-_>', ':CommentToggle<cr>', { silent = true }) -- toggle comment
-keyset('n', '<c-/>', ':CommentToggle<cr>', { silent = true }) -- toggle comment
-keyset('v', '<c-_>', ':CommentToggle<cr>gv', { silent = true }) -- toggle comment (visual)
-keyset('v', '<c-/>', ':CommentToggle<cr>gv', { silent = true }) -- toggle comment (visual)
-keyset('n', 'p', 'p`]', { silent = true }) -- auto format on paste
-keyset('n', '<c-f>', ':lua require("harpoon.ui").toggle_quick_menu()<cr>', { silent = true }) -- harpoon

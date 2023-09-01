@@ -274,4 +274,5 @@ error-message {
     text-color:                  @foreground-colour;
 }
 //@theme "/usr/share/rofi/themes/iggy.rasi"
-@theme "/usr/share/rofi/themes/DarkBlue.rasi"
+//@theme "/usr/share/rofi/themes/DarkBlue.rasi"
+@theme "/usr/share/rofi/themes/gruvbox-dark.rasi"

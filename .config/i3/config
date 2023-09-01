@@ -9,7 +9,7 @@
 #
 
 for_window [class="^.*"] border pixel 2 
-gaps inner 2 
+gaps inner 4 
 gaps outer 2
 
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
@@ -22,7 +22,7 @@ font pango:Aldrich 8
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-#font pango:DejaVu Sans Mono 8
+font pango:DejaVu Sans Mono 8
 
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
@@ -40,10 +40,11 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id nm-applet
 
 # Autostarts
-exec --no-startup-id nitrogen --head=0 --set-zoom-fill /usr/share/pixmaps/wallpaper.jpg && nitrogen --head=1 --set-zoom-fill /usr/share/pixmaps/wallpaper.jpg
+exec --no-startup-id nitrogen --head=0 --set-zoom-fill ~/.config/wallpapers/ebic.jpg && nitrogen --head=1 --set-zoom-fill ~/.config/wallpapers/1689848120480395.png
 exec --no-startup-id ~/.config/polybar/launch.sh --forest
 exec --no-startup-id sxhkd -c ~/.config/sxhkd/sxhkdrc
-exec --no-startup-id picom --experimental-backends --config ~/.config/picom/picom.conf
+exec --no-startup-id picom --config ~/.config/picom/picom.conf
+exec --no-startup-id redshift -l 40.61:-8.65
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -182,3 +183,6 @@ mode "resize" {
 }
 
 # bindsym $mod+r mode "resize"
+
+# force floating
+for_window [class="spotify-nano"] floating enable

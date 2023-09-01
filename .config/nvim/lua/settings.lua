@@ -1,5 +1,7 @@
 vim.g.mapleader = " "
-vim.opt.termguicolors = true
+vim.opt.termguicolors = true 
+vim.opt.background = "dark"
+
 vim.opt.guifont = "ComicMono Nerd Font:h13"
 vim.opt.lsp = 2
 -- vim.opt.guioptions -= m
