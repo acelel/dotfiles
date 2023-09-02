@@ -12,10 +12,10 @@ local opts = {silent = true, noremap = true, expr = true, replace_keycodes = fal
 keyset('i', '<c-s>', 'copilot#Accept("<cr>")', opts) -- copilot autocomplete
 keyset('n', '<F1>', ':ToggleTerm<cr>', { silent = true }) -- toggle terminal
 
-keyset('n', '<c-f>', ':Telescope buffers<cr>', { silent = true }) -- toggle nvimtree
-keyset('n', '<c-x>', ':Telescope find_files hidden=true border=false<cr>', { silent = true }) -- toggle nvimtree
-keyset('n', '<c-t>', ':Telescope live_grep<cr>', { silent = true }) -- toggle nvimtree
-keyset('n', '<c-h>', ':Telescope which-key<cr>', { silent = true }) -- toggle nvimtree
+keyset('n', '<c-f>', ':Telescope buffers hidden=true ignore=true border=false<cr>', { silent = true }) -- toggle nvimtree
+keyset('n', '<c-x>', ':Telescope find_files hidden=true ignore=true border=false<cr>', { silent = true }) -- toggle nvimtree
+keyset('n', '<c-t>', ':Telescope live_grep hidden=true ignore=true border=false<cr>', { silent = true }) -- toggle nvimtree
+keyset('n', '<c-h>', ':Telescope which-key hidden=true ignore=true border=false<cr>', { silent = true }) -- toggle nvimtree
 keyset('n', '<c-u>', ':UndotreeToggle<cr>', { silent = true }) -- toggle nvimtree
 keyset('n', '<c-s>', ':w<cr>', { silent = true }) -- toggle nvimtree
 keyset('n', '<c-q>', ':lua require("harpoon.ui").toggle_quick_menu()<cr>', { silent = true }) -- harpoon
